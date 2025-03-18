@@ -22,7 +22,15 @@ proto: src/stealthimfilestorage/proto/filestorage_pb2.py src/stealthimfilestorag
 build: proto
 	poetry build
 
+./bin/StealthIMFileStorage.docker.zst: $(GO_FILES) proto
+	docker-compose build
+	@mkdir -p ./bin
+	docker save stealthimfilestorage-app > ./bin/StealthIMFileStorage.docker
+	zstd ./bin/StealthIMFileStorage.docker -19
+	@rm ./bin/StealthIMFileStorage.docker
+
+build_docker: ./bin/StealthIMFileStorage.docker.zst
+
 clean:
 	@rm -rf ./src/stealthimfilestorage/proto
 	@rm -rf ./bin
-	@rm -rf ./__debug*

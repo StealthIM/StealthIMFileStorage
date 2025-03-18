@@ -5,4 +5,5 @@ poetry.lock
 .vscode
 config.toml
 dist/
-storage
+storage/
+bin/

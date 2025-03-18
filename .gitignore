@@ -3,4 +3,5 @@ src/**/proto
 poetry.lock
 config.toml
 dist/
-storage
+storage/
+bin/
