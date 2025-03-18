@@ -1,0 +1,8 @@
+**/__pycache__/
+src/**/proto
+poetry.lock
+.git
+.vscode
+config.toml
+dist/
+storage

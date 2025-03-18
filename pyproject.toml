@@ -1,0 +1,26 @@
+[project]
+name = "stealthimfilestorage"
+version = "0.1.0"
+description = ""
+authors = [{ name = "cxykevin", email = "cxykevin@yeah.net" }]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = ["grpclib", "protobuf", "uvloop", "aiofiles"]
+
+[tool.poetry]
+packages = [{ include = "stealthimfilestorage", from = "src" }]
+
+
+[[tool.poetry.source]]
+name = "mirrors"
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
+priority = "primary"
+
+
+[tool.poetry.group.dev.dependencies]
+grpcio-tools = "^1.71.0"
+mypy-protobuf = "^3.6.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

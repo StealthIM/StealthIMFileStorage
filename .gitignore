@@ -1,0 +1,6 @@
+**/__pycache__/
+src/**/proto
+poetry.lock
+config.toml
+dist/
+storage

@@ -1,0 +1,11 @@
+[server]
+host = "127.0.0.1"
+port = 50052
+log = false
+
+[file]
+path = "./storage"
+
+[usage]
+total = 100 # 以 block 计量
+# block size 由上层 API 决定
