@@ -33,11 +33,18 @@ message Result {
   string msg = 2;
 }
 
-message SaveFileRequest { bytes block_data = 1; }
+message SaveFileRequest {
+  bytes block_data = 1;
+  string hash = 2;
+  int32 block = 3;
+}
 
 message SaveFileResponse { Result result = 1; }
 
-message GetFileRequest { string block_hash = 1; }
+message GetFileRequest {
+  string hash = 1;
+  int32 block = 2;
+}
 
 message GetFileResponse {
   Result result = 1;

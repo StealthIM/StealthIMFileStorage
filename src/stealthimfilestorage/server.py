@@ -18,7 +18,7 @@ async def Ping(_: Any) -> filestorage_pb2.Pong:
 @serv.serve
 async def GetFile(data: filestorage_pb2.GetFileRequest) -> filestorage_pb2.GetFileResponse:
     try:
-        dt = await storage.get(data.block_hash)
+        dt = await storage.get(data.hash, data.block)
         return filestorage_pb2.GetFileResponse(result=filestorage_pb2.Result(code=0, msg=""), block_data=dt)
     except Exception as e:
         return filestorage_pb2.GetFileResponse(result=filestorage_pb2.Result(code=1, msg=str(e)), block_data=b"")
@@ -27,7 +27,7 @@ async def GetFile(data: filestorage_pb2.GetFileRequest) -> filestorage_pb2.GetFi
 @serv.serve
 async def SaveFile(data: filestorage_pb2.SaveFileRequest) -> filestorage_pb2.SaveFileResponse:
     try:
-        await storage.save(data.block_data)
+        await storage.save(data.block_data, data.hash, data.block)
         return filestorage_pb2.SaveFileResponse(result=filestorage_pb2.Result(code=0, msg=""))
     except Exception as e:
         return filestorage_pb2.SaveFileResponse(result=filestorage_pb2.Result(code=1, msg=str(e)))

@@ -1,21 +1,21 @@
-import hashlib
 import aiofiles
 import aiofiles.os
 import os
+import asyncio
+import shutil
 from . import config
 
 usage: int = 0
 
 
-async def save(bytes: bytes) -> None:
+async def save(bytes: bytes, hashstr: str, block_id: int) -> None:
     global usage
     usage += 1
     try:
-        hashstr = hashlib.sha256(bytes).hexdigest()
         hash_head = hashstr[:2]
         await aiofiles.os.makedirs(f"{config.Storage_Dir}{os.sep}{hash_head}", exist_ok=True)
-        assert await aiofiles.os.path.exists(f"{config.Storage_Dir}{os.sep}{hash_head}{os.sep}{hashstr}") is False
-        async with aiofiles.open(f"{config.Storage_Dir}{os.sep}{hash_head}{os.sep}{hashstr}", "wb") as f:
+        assert await aiofiles.os.path.exists(f"{config.Storage_Dir}{os.sep}{hash_head}{os.sep}{hashstr}{os.sep}{block_id}") is False
+        async with aiofiles.open(f"{config.Storage_Dir}{os.sep}{hash_head}{os.sep}{hashstr}{os.sep}{block_id}", "wb") as f:
             await f.write(bytes)
     except AssertionError:
         usage -= 1
@@ -24,10 +24,10 @@ async def save(bytes: bytes) -> None:
         raise e
 
 
-async def get(hashstr: str) -> bytes:
+async def get(hashstr: str, block_id: int) -> bytes:
     global usage
     hash_head = hashstr[:2]
-    async with aiofiles.open(f"{config.Storage_Dir}{os.sep}{hash_head}{os.sep}{hashstr}",  "rb") as f:
+    async with aiofiles.open(f"{config.Storage_Dir}{os.sep}{hash_head}{os.sep}{hashstr}{os.sep}{block_id}",  "rb") as f:
         return await f.read()
 
 
@@ -36,7 +36,7 @@ async def delete(hashstr: str) -> None:
     usage -= 1
     hash_head = hashstr[:2]
     try:
-        await aiofiles.os.remove(f"{config.Storage_Dir}{os.sep}{hash_head}{os.sep}{hashstr}")
+        await asyncio.to_thread(lambda: shutil.rmtree(f"{config.Storage_Dir}{os.sep}{hash_head}{os.sep}{hashstr}"))
     except Exception:
         usage += 1
 
