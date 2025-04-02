@@ -34,3 +34,4 @@ def load_cfg(cfg_path: str = "config.toml"):
 async def reload_cfg():
     global last_config_path
     await asyncio.to_thread(lambda: load_cfg(last_config_path))
+    print("[CONF]Config Reloaded")

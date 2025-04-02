@@ -45,6 +45,6 @@ async def GetUsage(data: filestorage_pb2.GetUsageRequest) -> filestorage_pb2.Get
 
 
 @serv.serve
-async def Reload(_: filestorage_pb2.ReloadRequest) -> filestorage_pb2.ReloadResponse:
-    await config.reload_cfg()
+async def Reload(data: filestorage_pb2.ReloadRequest) -> filestorage_pb2.ReloadResponse:
+    asyncio.create_task(config.reload_cfg())
     return filestorage_pb2.ReloadResponse(result=filestorage_pb2.Result(code=0, msg=""))
